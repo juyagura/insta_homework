@@ -1,0 +1,94 @@
+<div class="page-header">
+  <h1>Photo #<%= @photo.id %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Image</dt>
+  <dd><img src="<%= @photo.image_url %>"></dd>
+
+  <dt>Caption</dt>
+  <dd><%= @photo.caption %></dd>
+
+  <dt>User</dt>
+  <dd><%= @photo.user.username %></dd>
+
+</dl>
+
+<ul class="media-list">
+  <% @photo.comments.each do |comment| %>
+    <li class="media">
+      <a class="pull-left" href="#">
+        <img class="media-object" src="<%= comment.user.avatar_url %>" alt="...">
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading"><%= comment.user.username %></h4>
+        <%= comment.content %>
+      </div>
+    </li>
+  <% end %>
+</ul>
+
+<% if @photo.fans.exists?(current_user.id) %>
+  <h3><i class="fa fa-star"></i> You have favorited the photo</h3>
+  <form action="/delete_favorite/<%= @photo.favorites.find_by({:photo_id => @photo.id, :user_id => current_user.id}).id %>" class="form-horizontal">
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <input type="submit" value="Delete from Favorites" class="btn btn-danger">
+      </div>
+    </div>
+  </form>
+<% else %>
+  <form action="/create_favorite" class="form-horizontal">
+    <!-- Label and input for photo_id -->
+    <div class="form-group">
+      <div class="col-sm-10">
+        <input type="hidden" id="photo_id" name="photo_id" placeholder="Photo" class="form-control" value="<%= @photo.id %>">
+      </div>
+    </div>
+
+    <!-- Label and input for user_id -->
+    <div class="form-group">
+      <div class="col-sm-10">
+        <input type="hidden" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= current_user.id %>">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <input type="submit" value="Add to Favorites" class="btn btn-primary">
+      </div>
+    </div>
+  </form>
+<% end %>
+
+<form action="/create_comment" class="form-horizontal">
+  <!-- Label and input for content -->
+  <div class="form-group">
+    <label for="content" class="col-sm-2 control-label">
+      Comment
+    </label>
+    <div class="col-sm-10">
+      <textarea id="content" name="content" placeholder="Content" class="form-control" rows="3"></textarea>
+    </div>
+  </div>
+
+  <!-- Label and input for photo_id -->
+  <div class="form-group">
+    <div class="col-sm-10">
+      <input type="hidden" id="photo_id" name="photo_id" placeholder="Photo" class="form-control" value="<%= @photo.id %>">
+    </div>
+  </div>
+
+  <!-- Label and input for user_id -->
+  <div class="form-group">
+    <div class="col-sm-10">
+      <input type="hidden" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= current_user.id %>">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <input type="submit" value="Create Comment" class="btn btn-primary">
+    </div>
+  </div>
+</form>
