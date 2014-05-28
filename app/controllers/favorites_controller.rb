@@ -47,4 +47,8 @@ class FavoritesController < ApplicationController
 
     redirect_to "/photos/#{@favorite.photo_id}", :notice => "Favorite deleted."
   end
+
+  def my_favorites
+    @favorites = Favorite.where({ :user_id => current_user.id})
+  end
 end

@@ -56,6 +56,9 @@ Rails.application.routes.draw do
   # WALL
   get('/my_wall', { :controller => 'photos', :action => 'wall'})
 
+  # MY FAVORITES
+  get('/my_favorites', { :controller => 'favorites', :action => 'my_favorites'})
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
