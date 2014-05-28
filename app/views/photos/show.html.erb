@@ -29,7 +29,7 @@
 </ul>
 
 <% if @photo.fans.exists?(current_user.id) %>
-  <h3><i class="fa fa-star"></i> You have favorited the photo</h3>
+  <h3><i class="fa fa-star"></i> You have favorited this photo</h3>
   <form action="/delete_favorite/<%= @photo.favorites.find_by({:photo_id => @photo.id, :user_id => current_user.id}).id %>" class="form-horizontal">
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
